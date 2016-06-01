@@ -15,4 +15,13 @@ class Unit
     @health_points -= amount
   end
 
+  def dead?
+    health_points < 1
+  end
+
+  def can_attack?(enemy)
+    return false if self.dead?
+    return false if enemy.dead?
+  end
+
 end

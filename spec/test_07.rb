@@ -10,7 +10,7 @@ describe Footman do
   end
 
   describe "#attack!" do
-    it "should do deal 10 (AP) damage to the enemy unit" do
+    it "should deal 10 (AP) damage to the enemy unit" do
       enemy = Footman.new
       expect(enemy).to receive(:damage).with(10)
       @footman.attack!(enemy)

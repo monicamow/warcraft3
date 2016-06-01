@@ -2,11 +2,16 @@
 
 class Footman < Unit
 
-  attr_reader :health_points, :attack_power
-
   def initialize
-    @health_points = 60
-    @attack_power = 10
+    super(60, 10)
+  end
+
+  def attack!(enemy)
+    if enemy.is_a? Barracks
+      enemy.damage((attack_power / 2.0).ceil)
+    else
+      enemy.damage(attack_power)
+    end
   end
 
 end
