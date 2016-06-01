@@ -23,17 +23,22 @@ describe Barracks do
 
   describe Footman do 
 
+    before :each do
+      @footman = Footman.new
+    end
+
     describe "#attack!" do
-      it "should do deal 1/2 of AP as damage to the enemy barracks" do
-        expect(@barracks).to receive(:damage).with(5) # was 10
-        Footman.new.attack!(@barracks)
+      it "should deal 1/2 AP as damage to the enemy barracks" do
+        expect(@footman).to receive(:attack_power).and_return(10)        
+        expect(@barracks).to receive(:damage).with(5)
+        @footman.attack!(@barracks)
       end
     end
 
     describe "#damage" do
-      it "should reduce the barracks' health_points by 1/2 the attack_power specified" do
+      it "should reduce the barracks' health_points by damage specified" do
         @barracks.damage(2)
-        expect(@barracks.health_points).to eq(498) # starts at 60
+        expect(@barracks.health_points).to eq(498)
       end
 
       # # input tests --> redundant
@@ -43,12 +48,11 @@ describe Barracks do
 
       # # ADD EDGE CASES LIKE ARRAYS, STRINGS, FLOATS AND NIL
 
+      # test odd number AP
       it 'rounds damage up to nearest integer' do
-        @barracks = Barracks.new
-        footman = Footman.new
-        expect(footman).to receive(:attack_power).and_return(5)
+        expect(@footman).to receive(:attack_power).and_return(5)
         expect(@barracks).to receive(:damage).with(3)
-        footman.attack!(@barracks)
+        @footman.attack!(@barracks)
       end
     end 
   end

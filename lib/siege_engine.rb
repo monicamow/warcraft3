@@ -12,8 +12,12 @@ class SiegeEngine < Unit
       enemy.damage(attack_power)
     else
       # cannot attack any other unit (peasant or footman)
-      puts 'cannot attack a peasant or footman'
+      return'cannot attack a peasant or footman'
     end
+  end
+
+  def damage(amount)
+    @health_points -= amount
   end
 
 end

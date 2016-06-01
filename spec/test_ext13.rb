@@ -1,6 +1,7 @@
 require_relative 'spec_helper'
 
 describe Barracks do 
+# barracks creating siege engine
 
   before :each do
     @barracks = Barracks.new
@@ -67,9 +68,11 @@ describe Barracks do
 end
 
 describe SiegeEngine do
+# siege engine behaviour
 
   before :each do
     @siege_engine = SiegeEngine.new
+    @barracks = Barracks.new
   end
 
   it "has and knows its HP (health points)" do
@@ -83,7 +86,24 @@ describe SiegeEngine do
   describe '#attack' do
 
     # can attack Barracks and other SiegeEngine but not Peasant or Footman
-    it 'blah' do
+    it "should deal 2x AP as damage to the enemy barracks" do
+      expect(@siege_engine).to receive(:attack_power).and_return(10)        
+      expect(@barracks).to receive(:damage).with(20)
+      @siege_engine.attack!(@barracks)
+    end
+
+    it "should deal AP (1 to 1) as damage to the enemy siege engine" do
+      enemy_siege_engine = SiegeEngine.new
+      expect(@siege_engine).to receive(:attack_power).and_return(10)        
+      expect(enemy_siege_engine).to receive(:damage).with(10)
+      @siege_engine.attack!(enemy_siege_engine)
+    end
+
+    it "should not be able to attack Peasant or Footman" do
+      peasant = Peasant.new
+      footman = Footman.new
+      expect(@siege_engine.attack!(peasant)).to eq("cannot attack a peasant or footman")
+      expect(@siege_engine.attack!(footman)).to eq("cannot attack a peasant or footman")
     end
 
   end
@@ -91,8 +111,11 @@ describe SiegeEngine do
   describe '#damage' do
 
     # deals 2x AP against Barracks and 0 AP to other SiegeEngine
-    it 'blah' do
+    it "should reduce the barracks' health_points by damage specified" do
+      @barracks.damage(2)
+      expect(@barracks.health_points).to eq(498)
     end
     
   end
+
 end
